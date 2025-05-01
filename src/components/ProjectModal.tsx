@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
-import { IoArrowBack } from 'react-icons/io5'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 
 interface ProjectModalProps {
   isOpen: boolean
@@ -64,10 +64,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
                   <div className="relative h-64">
                     {project.image && (
                       <>
-                        <img 
+                        <Image 
                           src={project.image} 
                           alt={project.title}
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
+                          quality={85}
+                          priority
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#111112] via-[#111112]/70 to-transparent" />
                       </>
