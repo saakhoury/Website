@@ -1,8 +1,6 @@
 'use client'
 import React from 'react'
-import { IoArrowBack } from 'react-icons/io5'
 import { motion, AnimatePresence } from 'framer-motion'
-import CursorFollower from './CursorFollower'
 
 interface ModalProps {
   isOpen: boolean
@@ -18,40 +16,9 @@ interface ModalProps {
     }[]
     skills?: string[]
   } | null
-  cursorColors: string[]
 }
 
-const experiences = [
-  {
-    title: "Software Engineer Intern",
-    company: "Coinbase AM",
-    period: "Present",
-    shortDescription: "Building enterprise-scale blockchain solutions",
-    longDescription: "Working on enterprise-scale blockchain solutions and infrastructure development. Contributing to cryptocurrency trading and wallet management systems.",
-    skills: ["Blockchain", "Distributed Systems", "Go", "React", "AWS"],
-    projects: [
-      {
-        title: "DeFi Terminal Infrastructure",
-        description: "Developed enterprise-grade DeFi terminal utilizing multi-agent AI architecture for Project Diamond's financial infrastructure, enabling programmatic management of complex financial instruments through natural language"
-      },
-      {
-        title: "MongoDB Agent & Base L2 Integration",
-        description: "Built custom MongoDB agent for real-time financial data analysis, transaction monitoring, and regulatory compliance, integrated with Base L2 blockchain operations"
-      },
-      {
-        title: "Smart Contract Architecture",
-        description: "Implemented EIP-2535 Diamond Standard proxy patterns for upgradeable smart contract architecture, supporting multi-signature wallet operations and automated market making"
-      },
-      {
-        title: "Tech Stack",
-        description: "Technologies: Solidity, Rust/Foundry, TypeScript, Next.js, LangChain, OpenAI GPT-4, MongoDB, WebSocket, TailwindCSS"
-      }
-    ]
-  },
-  // ... rest of experiences stay the same
-]
-
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience, cursorColors }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience }) => {
   if (!experience) return null
 
   return (
@@ -133,89 +100,97 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience, cursorColors
 
                   {/* Content Section */}
                   <div className="p-8 bg-[#111112] space-y-8">
-                    {/* Overview with animated highlight */}
-                    <motion.div 
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                      className="space-y-4"
-                    >
-                      <h3 className="text-sm font-medium text-white/90 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-8 h-[1px] bg-gradient-to-r from-blue-500 to-purple-500" />
-                        Overview
-                      </h3>
-                      <p className="text-[#9A9AA2] leading-relaxed pl-4 border-l border-white/5">
-                        {experience.longDescription}
-                      </p>
-                    </motion.div>
-
-                    {/* Projects Grid with hover effects */}
-                    <motion.div 
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.3 }}
-                      className="space-y-4"
-                    >
-                      <h3 className="text-sm font-medium text-white/90 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-8 h-[1px] bg-gradient-to-r from-purple-500 to-pink-500" />
-                        Key Projects
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-4">
-                        {experience.projects.map((project, index) => (
-                          <motion.div 
-                            key={index}
-                            initial={{ x: -20, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: 0.1 * index }}
-                            className="group p-4 bg-[#18181A] hover:bg-[#1C1C1E]
-                                     border border-white/5 hover:border-white/10
-                                     transition-all duration-300 relative overflow-hidden"
-                          >
-                            {/* Animated gradient background on hover */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 
-                                          opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            
-                            <div className="relative">
-                              <h4 className="text-sm font-medium text-white mb-2 group-hover:text-white/90 transition-colors">
-                                {project.title}
-                              </h4>
-                              <p className="text-sm text-[#9A9AA2] leading-relaxed group-hover:text-[#ADADB5] transition-colors">
-                                {project.description}
-                              </p>
-                            </div>
-                          </motion.div>
-                        ))}
+                    {experience.company === 'Coinbase AM' || experience.company === 'Coinbase' || experience.company === 'HammingAI' ? (
+                      <div className="flex items-center justify-center h-32">
+                        <span className="text-xl text-white/80 font-semibold">Coming soon.</span>
                       </div>
-                    </motion.div>
+                    ) : (
+                      <>
+                        {/* Overview with animated highlight */}
+                        <motion.div 
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: 0.2 }}
+                          className="space-y-4"
+                        >
+                          <h3 className="text-sm font-medium text-white/90 uppercase tracking-wider flex items-center gap-2">
+                            <span className="w-8 h-[1px] bg-gradient-to-r from-blue-500 to-purple-500" />
+                            Overview
+                          </h3>
+                          <p className="text-[#9A9AA2] leading-relaxed pl-4 border-l border-white/5">
+                            {experience.longDescription}
+                          </p>
+                        </motion.div>
 
-                    {/* Skills with animated tags */}
-                    <motion.div 
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.4 }}
-                      className="space-y-4"
-                    >
-                      <h3 className="text-sm font-medium text-white/90 uppercase tracking-wider flex items-center gap-2">
-                        <span className="w-8 h-[1px] bg-gradient-to-r from-pink-500 to-blue-500" />
-                        Technologies
-                      </h3>
-                      <div className="flex flex-wrap gap-2 pl-4">
-                        {experience.skills?.map((skill, index) => (
-                          <motion.span 
-                            key={index}
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ delay: 0.1 * index }}
-                            whileHover={{ scale: 1.05 }}
-                            className="px-3 py-1 text-sm text-[#9A9AA2] bg-[#18181A] 
-                                     border border-white/5 hover:border-white/10 hover:bg-[#1C1C1E]
-                                     transition-all duration-300"
-                          >
-                            {skill}
-                          </motion.span>
-                        ))}
-                      </div>
-                    </motion.div>
+                        {/* Projects Grid with hover effects */}
+                        <motion.div 
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: 0.3 }}
+                          className="space-y-4"
+                        >
+                          <h3 className="text-sm font-medium text-white/90 uppercase tracking-wider flex items-center gap-2">
+                            <span className="w-8 h-[1px] bg-gradient-to-r from-purple-500 to-pink-500" />
+                            Key Projects
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-4">
+                            {experience.projects.map((project, index) => (
+                              <motion.div 
+                                key={index}
+                                initial={{ x: -20, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: 0.1 * index }}
+                                className="group p-4 bg-[#18181A] hover:bg-[#1C1C1E]
+                                         border border-white/5 hover:border-white/10
+                                         transition-all duration-300 relative overflow-hidden"
+                              >
+                                {/* Animated gradient background on hover */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 
+                                              opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                
+                                <div className="relative">
+                                  <h4 className="text-sm font-medium text-white mb-2 group-hover:text-white/90 transition-colors">
+                                    {project.title}
+                                  </h4>
+                                  <p className="text-sm text-[#9A9AA2] leading-relaxed group-hover:text-[#ADADB5] transition-colors">
+                                    {project.description}
+                                  </p>
+                                </div>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </motion.div>
+
+                        {/* Skills with animated tags */}
+                        <motion.div 
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: 0.4 }}
+                          className="space-y-4"
+                        >
+                          <h3 className="text-sm font-medium text-white/90 uppercase tracking-wider flex items-center gap-2">
+                            <span className="w-8 h-[1px] bg-gradient-to-r from-pink-500 to-blue-500" />
+                            Technologies
+                          </h3>
+                          <div className="flex flex-wrap gap-2 pl-4">
+                            {experience.skills?.map((skill, index) => (
+                              <motion.span 
+                                key={index}
+                                initial={{ scale: 0, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ delay: 0.1 * index }}
+                                whileHover={{ scale: 1.05 }}
+                                className="px-3 py-1 text-sm text-[#9A9AA2] bg-[#18181A] 
+                                         border border-white/5 hover:border-white/10 hover:bg-[#1C1C1E]
+                                         transition-all duration-300"
+                              >
+                                {skill}
+                              </motion.span>
+                            ))}
+                          </div>
+                        </motion.div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

@@ -7,32 +7,33 @@ import ProjectCard from '@/components/ProjectCard'
 import SearchBar from '@/components/SearchBar'
 import Modal from '@/components/Modal'
 import YearFilter from '@/components/YearFilter'
-import ProjectModal from '@/components/ProjectModal'
 import TypeFilter from '@/components/TypeFilter'
+import MinecraftWrapper from '@/components/MinecraftWrapper'
 
-interface Project {
+// Define Experience type for openModal
+type Experience = {
   title: string;
-  description: string;
-  tags: string[];
-  image: string;
-  link: string;
-  year: number;
-}
+  company: string;
+  period: string;
+  shortDescription: string;
+  longDescription: string;
+  skills: string[];
+  logo?: string;
+  projects: { title: string; description: string }[];
+};
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedExperience, setSelectedExperience] = useState(null)
+  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
-  const [selectedProject, setSelectedProject] = useState(null)
-  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false)
   const [selectedType, setSelectedType] = useState('all')
 
   const experiences = [
     {
-      title: "Software Engineer Intern",
-      company: "Coinbase AM",
-      period: "Present",
+      title: "SWE Intern",
+      company: "Coinbase",
+      period: "Incoming Fall 2025",
       shortDescription: "Building enterprise-scale blockchain solutions",
       longDescription: "Working on enterprise-scale blockchain solutions and infrastructure development. Contributing to cryptocurrency trading and wallet management systems.",
       skills: ["Blockchain", "Distributed Systems", "Go", "React", "AWS"],
@@ -51,9 +52,30 @@ export default function Home() {
       ]
     },
     {
-      title: "Machine Learning Engineer",
+      title: "SWE Intern",
+      company: "Coinbase AM",
+      period: "Winter 2025",
+      shortDescription: "Building enterprise-scale blockchain solutions",
+      longDescription: "Working on enterprise-scale blockchain solutions and infrastructure development. Contributing to cryptocurrency trading and wallet management systems.",
+      skills: ["Blockchain", "Distributed Systems", "Go", "React", "AWS"],
+      logo: "/logos/cbam.png",
+      projects: [
+        {
+          title: "Cryptocurrency Infrastructure",
+          description: "Developing and maintaining critical blockchain infrastructure components",
+          tags: ["Blockchain", "Go", "Infrastructure"]
+        },
+        {
+          title: "Trading Systems",
+          description: "Contributing to high-performance cryptocurrency trading systems",
+          tags: ["Trading", "Performance", "Distributed Systems"]
+        }
+      ]
+    },
+    {
+      title: "ML Engineer",
       company: "HammingAI",
-      period: "2023",
+      period: "October 2024",
       shortDescription: "Developing AI/ML solutions for enterprise",
       longDescription: "Developing and implementing machine learning solutions for enterprise applications. Focus on natural language processing and computer vision systems.",
       skills: ["Machine Learning", "Python", "PyTorch", "Computer Vision", "NLP"],
@@ -77,9 +99,9 @@ export default function Home() {
       ]
     },
     {
-      title: "Data Engineering Intern",
+      title: "Data Engineer Intern",
       company: "NGen Canada",
-      period: "Jan 2022 - Present",
+      period: "Summer 2024",
       shortDescription: "Worked on advanced manufacturing and AI initiatives.",
       longDescription: "Focused on data engineering and analytic tasks such as building data pipelines and ML models. Completed and contributed to 16 projects accelerating impact.",
       skills: ["Data Engineering", "Machine Learning", "Project Management"],
@@ -108,9 +130,9 @@ export default function Home() {
       ]
     },
     {
-      title: "Infrastructure Project Developer",
+      title: "Project Developer",
       company: "UW Blueprint",
-      period: "Jun 2021 - Dec 2021",
+      period: "April 2024 - May 2025",
       shortDescription: "Tech for social good",
       longDescription: "Tech for social good. Specialized in infrastructure development, utilizing tools like Kubernetes, AWS, Docker, Prisma, Terraform, and Heroku to enhance project efficiency and deployment processes.",
       skills: ["Kubernetes", "AWS", "Docker", "Prisma", "Terraform", "Heroku"],
@@ -134,9 +156,9 @@ export default function Home() {
       ]
     },
     {
-      title: "Data Analyst & Webmaster",
+      title: "Data Associate",
       company: "Front Row Ventures",
-      period: "Mar 2020 - May 2021",
+      period: "April 2024 - June 2025",
       shortDescription: "Optimized funding processes through data-driven strategies",
       longDescription: "Optimized funding processes through data-driven strategies, managed web content, and analyzed key performance metrics to support investment decisions. Completed two-month venture capital bootcamp, gaining exclusive insights from local VCs and founders.",
       skills: ["Data Analysis", "Web Development", "Venture Capital"],
@@ -155,7 +177,7 @@ export default function Home() {
       ]
     },
     {
-      title: "CoFounder & Vice President",
+      title: "CoFounder & VP",
       company: "InLoop",
       period: "Mar 2020 - May 2021",
       shortDescription: "Led development of Deloitte-backed gaming platform",
@@ -388,13 +410,8 @@ export default function Home() {
 
   // Get unique years from projects and sort them in descending order
   const availableYears = Array.from(
-    new Set(projects.map(project => project.year))
+    new Set(projects.map(project => project.year).filter((y): y is number => typeof y === 'number'))
   ).sort((a, b) => b - a)
-
-  // Get all unique tags from projects
-  const availableTags = Array.from(
-    new Set(projects.flatMap(project => project.tags))
-  ).sort()
 
   // Update filtered projects logic to include tag filtering
   const filteredProjects = projects.filter(project => {
@@ -410,7 +427,7 @@ export default function Home() {
     return matchesSearch && matchesYear && matchesType
   })
 
-  const openModal = (experience) => {
+  const openModal = (experience: Experience) => {
     setSelectedExperience(experience)
     setIsModalOpen(true)
   }
@@ -419,23 +436,6 @@ export default function Home() {
     setIsModalOpen(false)
     setSelectedExperience(null)
   }
-
-  const openProjectModal = (project) => {
-    setSelectedProject(project)
-    setIsProjectModalOpen(true)
-  }
-
-  const closeProjectModal = () => {
-    setIsProjectModalOpen(false)
-    setSelectedProject(null)
-  }
-
-  const cursorColors = [
-    '#FF0000',
-    '#00FF00',
-    '#0000FF',
-    'transparent'
-  ]
 
   return (
     <div className="min-h-screen bg-[#0A0A0B] text-white">
@@ -481,9 +481,10 @@ export default function Home() {
                   Interested in developing robust, well-designed products.
                 </h2>
               </div>
-              <p className="text-md text-[#9A9AA2] max-w-md leading-relaxed">
-                Machine Learning Engineer @ HammingAI.<br />
-                Software Engineer Intern @ Coinbase Asset Management.
+              <p className="text-md text-[#9A9AA2] max-w-lg leading-relaxed">
+                ML Engineer @ HammingAI.<br />
+                Incoming Software Engineer Intern @ Coinbase.<br />
+                3x Startup Founder sponsored by TD, IFDS, & Deloitte.
               </p>
               <p className="text-md text-[#9A9AA2] max-w-lg leading-relaxed">
                 Singer. American Idol S6. International Indian Icon Winner S1.
@@ -515,7 +516,12 @@ export default function Home() {
           {/* Experience Section */}
           <div className="space-y-6">
             <h3 className="text-sm tracking-[0.2em] text-[#9A9AA2] uppercase flex items-center gap-3">
-              <span className="w-6 h-[1px] bg-[#9A9AA2]"></span>
+              <motion.span 
+                initial={{ width: 0 }}
+                animate={{ width: 24 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="h-[1px] bg-gradient-to-r from-[#9A9AA2] to-[#9A9AA2]/50"
+              />
               LATEST EXPERIENCES
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[98%]">
@@ -539,7 +545,7 @@ export default function Home() {
                      border-t lg:border-t-0 lg:border-l border-[#1A1A1C]
                      bg-gradient-to-b from-[#0D0D0F] via-[#0F0F11] to-[#0D0D0F]"
         >
-          {/* About Me Section */}
+          {/* Minecraft Scene (replaces About Me section) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -547,23 +553,6 @@ export default function Home() {
             transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="mb-16 relative group"
           >
-            {/* Decorative background elements */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="absolute -inset-x-4 -inset-y-6 bg-gradient-to-br from-blue-600/[0.07] via-indigo-600/[0.05] to-purple-600/[0.03] -z-10"
-            />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="absolute right-0 top-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent blur-2xl -z-10"
-            />
-
-            {/* Header with animated line */}
             <div className="relative">
               <motion.h3 
                 initial={{ opacity: 0, x: -20 }}
@@ -579,31 +568,22 @@ export default function Home() {
                   transition={{ delay: 0.5, duration: 0.5 }}
                   className="h-[1px] bg-gradient-to-r from-gray-400 to-gray-400/50"
                 />
-                ABOUT ME
+                INTERACTIVE WORLD (BETA)
               </motion.h3>
             </div>
 
-            {/* Content with animated border */}
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="relative p-6 border border-white/5
+              className="relative p-6 border border-white/[0.03]
                         before:absolute before:inset-0 before:p-[1px] before:bg-gradient-to-r 
-                        before:from-transparent before:via-white/10 before:to-transparent 
+                        before:from-transparent before:via-white/5 before:to-transparent 
                         before:opacity-0 before:-z-10
                         group-hover:before:opacity-100 before:transition-opacity"
             >
-              <div className="space-y-4">
-                <p className="text-sm text-gray-400/90 leading-relaxed font-light">
-                  Recent Projects<br />
-                  Built a Self-Supervised GNN Recommender System as an internal tool for NGen Canada<br />
-                  Developed an AI-Driven GDP Forecasting Tool for Industry Analysis with NGen Canada<br />
-                  Learning Complex ML/AI Concepts from BackPropagation to Quant Strategies<br />
-                  Currently Building a Self-Driving Rover & Learning VLMs + Stable Diffusion from Scratch
-                </p>
-              </div>
+              <MinecraftWrapper />
             </motion.div>
           </motion.div>
 
@@ -611,7 +591,13 @@ export default function Home() {
           <div className="relative">
             <div className="absolute -inset-x-4 -inset-y-6 bg-white/[0.02] rounded-lg -z-10" />
             <h3 className="text-sm tracking-[0.2em] text-gray-400 uppercase mb-6 flex items-center gap-3">
-              <span className="w-6 h-[1px] bg-gray-400"></span>
+              <motion.span 
+                initial={{ width: 0 }}
+                whileInView={{ width: 24 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="h-[1px] bg-gradient-to-r from-gray-400 to-gray-400/50"
+              />
               FEATURED WORK
             </h3>
             <div className="flex gap-4 mb-6">
@@ -637,9 +623,8 @@ export default function Home() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
                 className="mb-6"
-                onClick={() => openProjectModal(project)}
               >
-                <ProjectCard project={project} index={index} />
+                <ProjectCard project={{ ...project, image: project.image || "" }} />
               </motion.div>
             ))}
           </div>
@@ -651,14 +636,6 @@ export default function Home() {
         isOpen={isModalOpen} 
         onClose={closeModal} 
         experience={selectedExperience}
-        cursorColors={cursorColors}
-      />
-
-      {/* Project Modal */}
-      <ProjectModal 
-        isOpen={isProjectModalOpen}
-        onClose={closeProjectModal}
-        project={selectedProject}
       />
     </div>
   )

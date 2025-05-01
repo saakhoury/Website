@@ -1,13 +1,19 @@
 'use client'
 import { useState } from 'react'
-import { Inter, Space_Grotesk } from 'next/font/google'
+import { Space_Grotesk, Manrope } from 'next/font/google'
 import './globals.css'
 import CursorFollower from '@/components/CursorFollower'
 import ColorPicker from '@/components/ColorPicker'
 
+const manrope = Manrope({ 
+  subsets: ['latin'],
+  display: 'swap',
+})
+
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ['latin'],
   display: 'swap',
+  variable: '--font-space-grotesk',
 })
 
 export default function RootLayout({
@@ -23,7 +29,7 @@ export default function RootLayout({
   ])
 
   return (
-    <html lang="en" className={spaceGrotesk.className}>
+    <html lang="en" className={`${manrope.className} ${spaceGrotesk.variable}`}>
       <body>
         {children}
         <CursorFollower colors={cursorColors} />

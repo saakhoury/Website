@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-alt: var(--font-space-grotesk), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,4 +78,50 @@ input[type="color"]::-webkit-color-swatch {
 
 .animate-shimmer {
   animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Font utilities */
+.font-alt {
+  font-family: var(--font-alt);
+}
+
+/* Add smooth scrolling and improved scrollbar */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 10, 11, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(154, 154, 162, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(154, 154, 162, 0.5);
+}
+
+/* Add subtle text selection styling */
+::selection {
+  background: rgba(128, 128, 255, 0.2);
+  color: #ffffff;
+}
+
+/* Add subtle hover transition for all interactive elements */
+a, button {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Improve focus outline for accessibility */
+*:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.2);
+  outline-offset: 2px;
 }

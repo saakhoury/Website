@@ -12,6 +12,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        sans: ['Manrope', 'system-ui', 'sans-serif'],
+        alt: ['var(--font-space-grotesk)', 'sans-serif'],
+      },
     },
   },
   plugins: [],
