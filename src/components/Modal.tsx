@@ -41,18 +41,29 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience }) => {
 
           {/* Modal Card */}
           <motion.div 
-            className="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none"
+            className="fixed inset-0 flex items-start md:items-center justify-center z-50 p-2 sm:p-4 pointer-events-none overflow-y-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div 
-              className="w-full max-w-4xl pointer-events-auto"
+              className="w-full max-w-4xl pointer-events-auto my-4 md:my-8"
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
               transition={{ type: "spring", duration: 0.5 }}
             >
+              {/* Fixed Close Button for Mobile */}
+              <motion.button 
+                onClick={onClose}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="fixed top-2 right-2 z-[60] text-[#9A9AA2] hover:text-white transition-colors p-3
+                         bg-black/70 hover:bg-black/90 backdrop-blur-sm rounded-full md:hidden"
+              >
+                ✕
+              </motion.button>
+              
               {/* Modern Card Design with Floating Effect */}
               <div className="relative overflow-hidden shadow-2xl
                             before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/[0.08] before:to-transparent before:z-10
@@ -65,13 +76,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience }) => {
                   {/* Header Section with Dynamic Gradient */}
                   <div className="relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 animate-shimmer" />
-                    <div className="relative p-8 pb-6 bg-black/95">
+                    <div className="relative p-5 sm:p-6 md:p-8 pb-4 sm:pb-6 bg-black/95">
                       <div className="flex items-start justify-between">
                         <div>
                           <motion.h2 
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
-                            className="text-2xl font-light text-white mb-2"
+                            className="text-xl sm:text-2xl font-light text-white mb-2"
                           >
                             {experience.title}
                           </motion.h2>
@@ -90,7 +101,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience }) => {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           className="text-[#9A9AA2] hover:text-white transition-colors p-2
-                                   bg-white/5 hover:bg-white/10"
+                                   bg-white/5 hover:bg-white/10 hidden md:block"
                         >
                           ✕
                         </motion.button>
@@ -99,7 +110,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience }) => {
                   </div>
 
                   {/* Content Section */}
-                  <div className="p-8 bg-[#111112] space-y-8">
+                  <div className="p-5 sm:p-6 md:p-8 bg-[#111112] space-y-6 sm:space-y-8 max-h-[70vh] md:max-h-[60vh] overflow-y-auto">
                     {experience.company === 'Coinbase AM' || experience.company === 'Coinbase' || experience.company === 'HammingAI' ? (
                       <div className="flex items-center justify-center h-32">
                         <span className="text-xl text-white/80 font-semibold">Coming soon.</span>
@@ -111,7 +122,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience }) => {
                           initial={{ y: 20, opacity: 0 }}
                           animate={{ y: 0, opacity: 1 }}
                           transition={{ delay: 0.2 }}
-                          className="space-y-4"
+                          className="space-y-3 sm:space-y-4"
                         >
                           <h3 className="text-sm font-medium text-white/90 uppercase tracking-wider flex items-center gap-2">
                             <span className="w-8 h-[1px] bg-gradient-to-r from-blue-500 to-purple-500" />
@@ -127,7 +138,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience }) => {
                           initial={{ y: 20, opacity: 0 }}
                           animate={{ y: 0, opacity: 1 }}
                           transition={{ delay: 0.3 }}
-                          className="space-y-4"
+                          className="space-y-3 sm:space-y-4"
                         >
                           <h3 className="text-sm font-medium text-white/90 uppercase tracking-wider flex items-center gap-2">
                             <span className="w-8 h-[1px] bg-gradient-to-r from-purple-500 to-pink-500" />
@@ -166,7 +177,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, experience }) => {
                           initial={{ y: 20, opacity: 0 }}
                           animate={{ y: 0, opacity: 1 }}
                           transition={{ delay: 0.4 }}
-                          className="space-y-4"
+                          className="space-y-3 sm:space-y-4"
                         >
                           <h3 className="text-sm font-medium text-white/90 uppercase tracking-wider flex items-center gap-2">
                             <span className="w-8 h-[1px] bg-gradient-to-r from-pink-500 to-blue-500" />
