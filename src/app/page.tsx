@@ -664,12 +664,13 @@ export default function Home() {
           <div className="max-w-4xl mx-auto">
             <div className="max-w-3xl mx-auto text-center">
               <div className="space-y-6">
-                <div className="mb-6 flex items-center justify-center gap-4">
+                <div className="mb-6 flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Image
                     src="/logos/footertext1.png"
                     alt="Always glad to meet someone new"
                     width={450}
                     height={68}
+                    className="w-full max-w-[450px] h-auto"
                     priority
                   />
                   <Image
@@ -677,6 +678,7 @@ export default function Home() {
                     alt="Goose with flower"
                     width={80}
                     height={80}
+                    className="w-16 h-16 sm:w-20 sm:h-20"
                   />
                 </div>
                 
