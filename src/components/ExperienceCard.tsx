@@ -119,11 +119,11 @@ export default function ExperienceCard({ experience, index }: ExperienceCardProp
                     bg-gradient-to-br ${colors.from} ${colors.via} ${colors.to} blur-lg -z-10`}></div>
                     
       {/* Card container */}
-      <div className={`min-h-[8rem] md:h-32 bg-black border border-white/10 
+      <div className={`h-[7rem] sm:h-[8rem] lg:h-[9rem] bg-black border border-transparent 
                     group-hover:border-white/20
                     group-hover:bg-gradient-to-br ${colors.from} ${colors.via} ${colors.to}
                     transition-all duration-300 ease-out
-                    p-4 sm:p-5 md:p-6 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 md:gap-6 relative overflow-hidden`}
+                    p-3 sm:p-4 md:p-4 lg:p-5 flex flex-col sm:flex-row items-center gap-2 sm:gap-3 lg:gap-4 relative overflow-hidden`}
       >
         {/* Decorative accent line */}
         <div className={`absolute top-0 left-0 w-full h-[2px] ${colors.accent} 
@@ -131,10 +131,11 @@ export default function ExperienceCard({ experience, index }: ExperienceCardProp
                        transition-transform duration-500 ease-out`}></div>
                        
         {/* Logo Container */}
-        <div className={`w-16 h-16 sm:w-20 sm:h-20 md:h-full md:aspect-square relative flex items-center justify-center
+        <div className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 xl:w-20 xl:h-20 
+                      flex-shrink-0 relative flex items-center justify-center
                       bg-white/[0.02] rounded-sm overflow-hidden
                       group-hover:bg-gradient-to-br ${colors.logoFrom} ${colors.logoVia} ${colors.logoTo}
-                      transition-all duration-300 shadow-lg`}
+                      transition-all duration-300 shadow-lg my-1`}
         >
           <div className="w-3/4 h-3/4 relative">
             <Image
@@ -148,19 +149,22 @@ export default function ExperienceCard({ experience, index }: ExperienceCardProp
         </div>
 
         {/* Text Container */}
-        <div className="flex-1 flex flex-col justify-center items-center sm:items-start text-center sm:text-left">
-          <h3 className="text-base text-white/80 font-medium tracking-wide
-                       group-hover:text-white/95 transition-colors"
+        <div className="flex-1 flex flex-col justify-center items-center sm:items-start text-center sm:text-left min-w-0 py-1 overflow-hidden">
+          <h3 className="text-sm sm:text-base text-white/80 font-medium tracking-wide
+                       group-hover:text-white/95 transition-colors
+                       break-words leading-tight"
           >
             {experience.company}
           </h3>
-          <p className="text-[13px] text-gray-400/80 font-light
-                      group-hover:text-gray-400/90"
+          <p className="text-xs sm:text-[13px] text-gray-400/80 font-light
+                      group-hover:text-gray-400/90
+                      break-words leading-tight mt-1"
           >
             {experience.title}
           </p>
-          <p className="text-[11px] text-gray-500/70 mt-1 font-light
-                      group-hover:text-gray-400/70"
+          <p className="text-[10px] sm:text-[11px] text-gray-500/70 mt-1 font-light
+                      group-hover:text-gray-400/70
+                      break-words leading-tight"
           >
             {experience.period}
           </p>

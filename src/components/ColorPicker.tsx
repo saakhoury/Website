@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 interface ColorPickerProps {
   colors: string[]
@@ -18,15 +19,22 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ colors, setColors }) => {
 
   return (
     <>
-      {/* Button */}
-      <div className="fixed top-0 right-0 z-40 p-4">
+      {/* Buttons */}
+      <div className="fixed top-0 right-0 z-40 p-4 space-y-2">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-xs text-gray-400 hover:text-white transition-colors duration-300 
-                     px-3 py-1 rounded-sm border border-white/10 hover:bg-white/[0.02]"
+                     px-3 py-1 rounded-sm border border-white/10 hover:bg-white/[0.02] block w-full"
         >
           Customize Cursor
         </button>
+        <Link
+          href="/archives"
+          className="text-xs text-gray-400 hover:text-white transition-colors duration-300 
+                     px-3 py-1 rounded-sm border border-white/10 hover:bg-white/[0.02] block w-full text-center"
+        >
+          Archives
+        </Link>
       </div>
 
       {/* Modal */}

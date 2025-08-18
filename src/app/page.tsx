@@ -2,212 +2,16 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
-import ExperienceCard from '@/components/ExperienceCard'
+import Image from 'next/image'
 import ProjectCard from '@/components/ProjectCard'
 import SearchBar from '@/components/SearchBar'
-import Modal from '@/components/Modal'
 import YearFilter from '@/components/YearFilter'
 import TypeFilter from '@/components/TypeFilter'
-import MinecraftWrapper from '@/components/MinecraftWrapper'
-
-// Define Experience type for openModal
-type Experience = {
-  title: string;
-  company: string;
-  period: string;
-  shortDescription: string;
-  longDescription: string;
-  skills: string[];
-  logo?: string;
-  projects: { title: string; description: string }[];
-};
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
+  const [selectedYear, setSelectedYear] = useState<number | 'all'>('all')
   const [selectedType, setSelectedType] = useState('all')
-
-  const experiences = [
-    {
-      title: "SWE Intern",
-      company: "Coinbase",
-      period: "Incoming Fall 2025",
-      shortDescription: "Building enterprise-scale blockchain solutions",
-      longDescription: "Working on enterprise-scale blockchain solutions and infrastructure development. Contributing to cryptocurrency trading and wallet management systems.",
-      skills: ["Blockchain", "Distributed Systems", "Go", "React", "AWS"],
-      logo: "/logos/coinbase.png",
-      projects: [
-        {
-          title: "Cryptocurrency Infrastructure",
-          description: "Developing and maintaining critical blockchain infrastructure components",
-          tags: ["Blockchain", "Go", "Infrastructure"]
-        },
-        {
-          title: "Trading Systems",
-          description: "Contributing to high-performance cryptocurrency trading systems",
-          tags: ["Trading", "Performance", "Distributed Systems"]
-        }
-      ]
-    },
-    {
-      title: "SWE Intern",
-      company: "Coinbase AM",
-      period: "Winter 2025",
-      shortDescription: "Building enterprise-scale blockchain solutions",
-      longDescription: "Working on enterprise-scale blockchain solutions and infrastructure development. Contributing to cryptocurrency trading and wallet management systems.",
-      skills: ["Blockchain", "Distributed Systems", "Go", "React", "AWS"],
-      logo: "/logos/cbam.png",
-      projects: [
-        {
-          title: "Cryptocurrency Infrastructure",
-          description: "Developing and maintaining critical blockchain infrastructure components",
-          tags: ["Blockchain", "Go", "Infrastructure"]
-        },
-        {
-          title: "Trading Systems",
-          description: "Contributing to high-performance cryptocurrency trading systems",
-          tags: ["Trading", "Performance", "Distributed Systems"]
-        }
-      ]
-    },
-    {
-      title: "ML Engineer",
-      company: "HammingAI",
-      period: "October 2024",
-      shortDescription: "Developing AI/ML solutions for enterprise",
-      longDescription: "Developing and implementing machine learning solutions for enterprise applications. Focus on natural language processing and computer vision systems.",
-      skills: ["Machine Learning", "Python", "PyTorch", "Computer Vision", "NLP"],
-      logo: "/logos/hamming.png",
-      projects: [
-        {
-          title: "ML Pipeline Development",
-          description: "Built scalable machine learning pipelines for data processing and model training",
-          tags: ["ML Ops", "Pipeline", "Python"]
-        },
-        {
-          title: "Computer Vision Systems",
-          description: "Implemented computer vision solutions for enterprise applications",
-          tags: ["Computer Vision", "Deep Learning", "PyTorch"]
-        },
-        {
-          title: "NLP Models",
-          description: "Developed natural language processing models for text analysis and generation",
-          tags: ["NLP", "Transformers", "Machine Learning"]
-        }
-      ]
-    },
-    {
-      title: "Data Engineer Intern",
-      company: "NGen Canada",
-      period: "Summer 2024",
-      shortDescription: "Worked on advanced manufacturing and AI initiatives.",
-      longDescription: "Focused on data engineering and analytic tasks such as building data pipelines and ML models. Completed and contributed to 16 projects accelerating impact.",
-      skills: ["Data Engineering", "Machine Learning", "Project Management"],
-      logo: "/logos/ngen.png",
-      projects: [
-        {
-          title: "MERN Dashboard",
-          description: "A dashboard with GDP forecasting & dynamic maps, analyzing ridings vs. investments to optimize project funding nationally.",
-          tags: ["ARIMA", "SVMs", "Government"]
-        },
-        {
-          title: "Recommender System",
-          description: "Engineered a self-supervised GNN-based recommender system with custom message aggregations & NADAM.",
-          tags: ["Graph Neural Networks", "LLMs", "FP-Growth"]
-        },
-        {
-          title: "Salesforce Pipeline",
-          description: "Built a Salesforce pipeline & reconciliation framework with automated schema handling via Airflow & Snowflake.",
-          tags: ["Airflow", "BulkAPI", "Snowflake"]
-        },
-        {
-          title: "LLM Framework",
-          description: "Developed an LLM framework to improve chatbot data retrieval for an ISED report on 'AI Use Cases in Advanced Manufacturing'.",
-          tags: ["Control Flow Graphs", "RAG", "RL"]
-        }
-      ]
-    },
-    {
-      title: "Project Developer",
-      company: "UW Blueprint",
-      period: "April 2024 - May 2025",
-      shortDescription: "Tech for social good",
-      longDescription: "Tech for social good. Specialized in infrastructure development, utilizing tools like Kubernetes, AWS, Docker, Prisma, Terraform, and Heroku to enhance project efficiency and deployment processes.",
-      skills: ["Kubernetes", "AWS", "Docker", "Prisma", "Terraform", "Heroku"],
-      logo: "/logos/blueprint.png",
-      projects: [
-        {
-          title: "Entity Service Migration",
-          description: "Migrated entity service to Prisma, refactored queries, verified & validated functionality of table updates with Postman/PSQL.",
-          tags: ["Prisma", "Postman", "PSQL"]
-        },
-        {
-          title: "Heroku Deployment",
-          description: "Automated Heroku deployment with Terraform, cutting setup time by 50% and ensuring consistent environment configuration.",
-          tags: ["Heroku", "Terraform"]
-        },
-        {
-          title: "Token Generation",
-          description: "Developed a CLI tool with Firebase Admin SDK for automated token generation, streamlining local testing and workflow integration.",
-          tags: ["Firebase", "Typescript"]
-        }
-      ]
-    },
-    {
-      title: "Data Associate",
-      company: "Front Row Ventures",
-      period: "April 2024 - June 2025",
-      shortDescription: "Optimized funding processes through data-driven strategies",
-      longDescription: "Optimized funding processes through data-driven strategies, managed web content, and analyzed key performance metrics to support investment decisions. Completed two-month venture capital bootcamp, gaining exclusive insights from local VCs and founders.",
-      skills: ["Data Analysis", "Web Development", "Venture Capital"],
-      logo: "/logos/frv1.png",
-      projects: [
-        {
-          title: "Field-Trip FRV Training",
-          description: "Produced detailed memos on private companies, offering recommendations on risk mitigation, market entry strategies",
-          tags: ["Venture Capital", "Economics"]
-        },
-        {
-          title: "Airtable Automations",
-          description: "Automated cleaning & consolidation of duplicated entries on Airtable, reducing manual cleanup time & ensuring integrity.",
-          tags: ["Airtable", "Data"]
-        }
-      ]
-    },
-    {
-      title: "CoFounder & VP",
-      company: "InLoop",
-      period: "Mar 2020 - May 2021",
-      shortDescription: "Led development of Deloitte-backed gaming platform",
-      longDescription: "Led the development of a fullstack Deloitte-backed digital gaming platform incentivizing news literacy. Implemented a React leaderboard and optimized workflows using Agile and Jira, raising user engagement. Engineered an ecommerce app using Stripe, Payload CMS, & Docker, optimizing client interaction. Commanded a team of 30+ members & generated a pipeline interest of $30K+, with $7K net revenue.",
-      skills: ["React", "Stripe", "Docker", "Agile", "Team Leadership"],
-      logo: "/logos/inloop.png",
-      projects: [
-        {
-          title: "Digital Gaming Platform",
-          description: "Led the development of a fullstack Deloitte-backed digital gaming platform incentivizing news literacy",
-          tags: ["React", "Gaming", "News Literacy"]
-        },
-        {
-          title: "React Leaderboard",
-          description: "Implemented a React leaderboard and optimized workflows using Agile and Jira, raising user engagement",
-          tags: ["React", "Agile", "Jira"]
-        },
-        {
-          title: "Ecommerce Application",
-          description: "Engineered an ecommerce app using Stripe, Payload CMS, & Docker, optimizing client interaction",
-          tags: ["Stripe", "Payload CMS", "Docker"]
-        },
-        {
-          title: "Team Leadership",
-          description: "Commanded a team of 30+ members & generated a pipeline interest of $30K+, with $7K net revenue",
-          tags: ["Leadership", "Revenue Generation"]
-        }
-      ]
-    }
-  ]
 
   const projects = [
     {
@@ -215,6 +19,7 @@ export default function Home() {
       description: "Researched WEB3 adoption complexities, culminating in BlockFundr(BETA), a blockchain crowdfunding platform.",
       type: "project",
       tags: ["MetaMask", "Ethereum", "Solidity"],
+      year: 2024,
       link: "#",
       image: "/projects/blockchain.png"
     },
@@ -223,6 +28,7 @@ export default function Home() {
       description: "An SEO tool developed to summarize text & generate embeddings for key-word identification",
       type: "project",
       tags: ["Word2Vec", "Byte Pair Encoding", "Sentence Transformers"],
+      year: 2024,
       link: "#",
       image: "/ai-summarizer.png"
     },
@@ -231,6 +37,7 @@ export default function Home() {
       description: "Self-Driving car with NN (no libraries) + Genetic Algorithms, A* Pathfinding, & Dijkstra's Algorithm",
       type: "project",
       tags: ["Python", "Lessons"],
+      year: 2024,
       link: "#",
       image: "/pathfinding.png"
     },
@@ -239,6 +46,7 @@ export default function Home() {
       description: "A full stack social media platform with authentication, explore features and a user-friendly UI for 300+ users",
       type: "project",
       tags: ["React", "Typescript", "Shadcn"],
+      year: 2024,
       link: "#",
       image: "/connect.png"
     },
@@ -247,6 +55,7 @@ export default function Home() {
       description: "Developed a trading strategy using unsupervised learning techniques to optimize investment decisions.",
       type: "project",
       tags: ["Portfolio Optimization", "NLTK", "Scikit-learn"],
+      year: 2024,
       link: "#",
       image: "/quant-trading.png"
     },
@@ -255,6 +64,7 @@ export default function Home() {
       description: "Wearable AI system integrating real-time video and audio streaming with emotion and object detection analytics.",
       type: "project",
       tags: ["Convolution Neural Networks", "Tensorflow"],
+      year: 2024,
       link: "#",
       image: "/guardian.png"
     },
@@ -263,6 +73,7 @@ export default function Home() {
       description: "An AR environment that displays individuals' résumes next to their faces at networking events.",
       type: "project",
       tags: ["AR Development", "Networking"],
+      year: 2024,
       link: "#",
       image: "/resuview.png"
     },
@@ -271,122 +82,16 @@ export default function Home() {
       description: "An AI image generator MERN app with responsive React.js design, MongoDB indexing & more.",
       type: "project",
       tags: ["OPENAI", "MongoDB", "RTK Query"],
+      year: 2024,
       link: "#",
       image: "/pixel.png"
     },
     {
-      title: "UnderThetoque",
-      description: "TD-sponsored online resource platform serving 15,000+ immigrants, expats, & refugees. Combined UI/UX research and prioritizing user stories in designing the interface.",
-      tags: ["UI/UX", "Leadership", "Social Impact"],
-      type: "company",
-      link: "#",
-      year: 2021
-    },
-    {
-      title: "DECA Chapter President",
-      description: "Led Bloor Collegiate Chapter. Competed against 120,000 students worldwide, achieving 4th place at ICDC. Qualified through role-play performances and cluster exams.",
-      tags: ["Leadership", "Public Speaking", "Competition"],
-      type: "volunteer",
-      image: "/logos/deca.png",
-      link: "#",
-      year: 2021
-    },
-    {
-      title: "StemFellowship Leadership",
-      description: "Mentored 30+ teams leading to three international wins. Taught data analytics, computational thinking, and scientific writing. Led Physics Match discussions.",
-      tags: ["Mentorship", "Data Analytics", "Scientific Writing"],
-      type: "volunteer",
-      image: "/logos/stemfellowship.png",
-      link: "#",
-      year: 2021
-    },
-    {
-      title: "Programming Instructor",
-      description: "Python, C++, Arduino, Java instructor at theCubeStemSchool. Taught programming fundamentals, robotics, and computer science concepts with hands-on learning approach.",
-      tags: ["Teaching", "Programming", "Robotics"],
-      type: "volunteer",
-      image: "/logos/cube.png",
-      link: "#",
-      year: 2021
-    },
-    {
-      title: "Youth Leadership Program",
-      description: "Founded and led Toastmasters youth program with Executive Dave Bachan. Provided Toronto Youth POC with leadership and public speaking mentorship.",
-      tags: ["Leadership", "Public Speaking", "Program Development"],
-      type: "volunteer",
-      image: "/logos/toastmasters.png",
-      link: "#",
-      year: 2021
-    },
-    {
-      title: "InLoop",
-      description: "Led development of Deloitte-backed gaming platform incentivizing news literacy. Generated $30K+ pipeline interest.",
-      tags: ["React", "Stripe", "Docker"],
-      type: "company",
-      link: "#",
-      year: 2021
-    },
-    {
-      title: "Flourish",
-      description: "Built a web platform for mental health professionals to streamline practice management, improve client engagement, and enhance therapeutic outcomes.",
-      tags: ["Mental Health", "SaaS", "Full Stack"],
-      type: "company",
-      link: "#",
-      year: 2022
-    },
-    {
-      title: "American Idol",
-      description: "Season 6 contestant. Performed in front of millions, reaching top rounds through vocal performances and stage presence.",
-      tags: ["Vocal Performance", "Television", "Competition"],
-      type: "music",
-      link: "#",
-      year: 2023
-    },
-    {
-      title: "International Indian Icon",
-      description: "Winner of Season 1. Showcased versatility in both Western and Indian classical styles, judged by industry professionals.",
-      tags: ["Vocal Performance", "Competition", "Winner"],
-      type: "music",
-      link: "#",
-      year: 2022
-    },
-    {
-      title: "Self-Driving Rover",
-      description: "(In-Progress) An autonomous vehicle using PID controllers and sensors.",
+      title: "OCR from Scratch",
+      description: "Built an Optical Character Recognition system from scratch in PyTorch, implementing the CNN architecture, data preprocessing, and training pipeline.",
       type: "project",
-      tags: ["Perception", "World Modelling"],
-      link: "#",
-      image: "/self-driving-rover.png"
-    },
-    {
-      title: "AutoRithm",
-      description: "Developed a robotic arm solution for precise food packaging & algorithms to optimize delivery routes",
-      type: "project",
-      tags: ["PHP", "EV3", "Robot-C", "Ultrasonic Sensors"],
-      link: "#",
-      image: "/autorithm.png"
-    },
-    {
-      title: "NN Lessons",
-      description: "Learning About Backpropagation, Classification, Gradient_Descent, K-Means Clustering, NN from Scratch, Optimizers, Regularization, & RNNs",
-      type: "project",
-      tags: ["Python", "Lessons"],
-      link: "#",
-      image: "/nn-lessons.png"
-    },
-    {
-      title: "Contrastive Loss",
-      description: "Compute the contrastive loss introduced by Yann LeCun et al. in the paper 'Dimensionality Reduction by Learning an Invariant Mapping.'",
-      type: "project",
-      tags: ["Tensorflow", "NumPy", "Lessons"],
-      link: "#",
-      image: "/contrastive-loss.png"
-    },
-    {
-      title: "OCR No-Imports",
-      description: "Developed an OCR system from scratch in Python using the k-nearest neighbors algorithm to classify images from the MNIST and Fashion-MNIST datasets",
-      type: "project",
-      tags: ["Python", "Lessons"],
+      tags: ["PyTorch", "Lessons"],
+      year: 2024,
       link: "#",
       image: "/ocr-no-imports.png"
     },
@@ -395,6 +100,7 @@ export default function Home() {
       description: "Built a Multimodal Vision Language Model in PyTorch, coding the Contrastive Learning, Vision Transformer, and multi-head attention mechanisms from scratch.",
       type: "project",
       tags: ["PyTorch", "Lessons"],
+      year: 2024,
       link: "#",
       image: "/vlm-scratch.png"
     },
@@ -403,8 +109,113 @@ export default function Home() {
       description: "Developed Stable Diffusion from scratch in PyTorch, implementing the Variational Autoencoder (VAE), CLIP model, and UNet architecture.",
       type: "project",
       tags: ["PyTorch", "Lessons"],
+      year: 2024,
       link: "#",
       image: "/stable-diffusion.png"
+    },
+    {
+      title: "UnderThetoque",
+      description: "TD-sponsored online resource platform serving 15,000+ immigrants, expats, & refugees. Combined UI/UX research and prioritizing user stories in designing the interface.",
+      tags: ["UI/UX", "Leadership", "Social Impact"],
+      type: "company",
+      year: 2021,
+      link: "#"
+    },
+    {
+      title: "DECA Chapter President",
+      description: "Led Bloor Collegiate Chapter. Competed against 120,000 students worldwide, achieving 4th place at ICDC. Qualified through role-play performances and cluster exams.",
+      tags: ["Leadership", "Public Speaking", "Competition"],
+      type: "volunteer",
+      year: 2021,
+      link: "#"
+    },
+    {
+      title: "StemFellowship Leadership",
+      description: "Mentored 30+ teams leading to three international wins. Taught data analytics, computational thinking, and scientific writing. Led Physics Match discussions.",
+      tags: ["Leadership", "Data Analytics", "Scientific Writing"],
+      type: "volunteer",
+      year: 2021,
+      link: "#"
+    },
+    {
+      title: "Programming Instructor",
+      description: "Python, C++, Arduino, Java instructor at theCubeStemSchool. Taught programming fundamentals, robotics, and computer science concepts with hands-on learning approach.",
+      tags: ["Teaching", "Programming", "Robotics"],
+      type: "volunteer",
+      year: 2021,
+      link: "#"
+    },
+    {
+      title: "Youth Leadership Program",
+      description: "Founded and led Toastmasters youth program with Executive Dave Bachan. Provided Toronto Youth POC with leadership and public speaking mentorship.",
+      tags: ["Leadership", "Public Speaking", "Program Development"],
+      type: "volunteer",
+      year: 2021,
+      link: "#"
+    },
+    {
+      title: "InLoop",
+      description: "Led development of Deloitte-backed gaming platform incentivizing news literacy. Generated $30K+ pipeline interest.",
+      tags: ["React", "Stripe", "Docker"],
+      type: "company",
+      year: 2021,
+      link: "#"
+    },
+    {
+      title: "Flourish",
+      description: "Built a web platform for mental health professionals to streamline practice management, improve client engagement, and enhance therapeutic outcomes.",
+      tags: ["Mental Health", "SaaS", "Full Stack"],
+      type: "company",
+      year: 2022,
+      link: "#"
+    },
+    {
+      title: "American Idol",
+      description: "Season 6 contestant. Performed in front of millions, reaching top rounds through vocal performances and stage presence.",
+      tags: ["Vocal Performance", "Television", "Competition"],
+      type: "music",
+      year: 2023,
+      link: "#"
+    },
+    {
+      title: "International Indian Icon",
+      description: "Winner of Season 1. Showcased versatility in both Western and Indian classical styles, judged by industry professionals.",
+      tags: ["Vocal Performance", "Competition", "Winner"],
+      type: "music",
+      year: 2022,
+      link: "#"
+    },
+    {
+      title: "Self-Driving Rover",
+      description: "(In-Progress) An autonomous vehicle using PID controllers and sensors.",
+      type: "project",
+      tags: ["Perception", "World Modelling"],
+      year: 2024,
+      link: "#"
+    },
+    {
+      title: "AutoRithm",
+      description: "Developed a robotic arm solution for precise food packaging & algorithms to optimize delivery routes",
+      type: "project",
+      tags: ["PHP", "EV3", "Robot-C", "Ultrasonic Sensors"],
+      year: 2024,
+      link: "#"
+    },
+    {
+      title: "NN Lessons",
+      description: "Learning About Backpropagation, Classification, Gradient_Descent, K-Means Clustering, NN from Scratch, Optimizers, Regularization, & RNNs",
+      type: "project",
+      tags: ["Python", "Lessons"],
+      year: 2024,
+      link: "#"
+    },
+    {
+      title: "Contrastive Loss",
+      description: "Compute the contrastive loss introduced by Yann LeCun et al. in the paper 'Dimensionality Reduction by Learning an Invariant Mapping.'",
+      type: "project",
+      tags: ["Tensorflow", "NumPy", "Lessons"],
+      year: 2024,
+      link: "#"
     }
   ]
 
@@ -420,177 +231,392 @@ export default function Home() {
       project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (project.type?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
     
-    const matchesYear = selectedYear === 'all' || project.year === selectedYear
+    const matchesYear = selectedYear === 'all' || (typeof project.year === 'number' && project.year === selectedYear)
     
     const matchesType = selectedType === 'all' || project.type === selectedType
     
     return matchesSearch && matchesYear && matchesType
   })
 
-  const openModal = (experience: Experience) => {
-    setSelectedExperience(experience)
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-    setSelectedExperience(null)
-  }
-
   return (
     <div className="min-h-screen bg-[#0A0A0B] text-white">
-      <main className="flex flex-col lg:flex-row">
-        {/* Left Section */}
+      <main className="flex flex-col">
+        {/* Hero Section */}
         <motion.section 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-full lg:w-1/2 p-8 sm:p-10 lg:p-16 min-h-screen lg:h-screen lg:overflow-y-auto
+          className="w-full p-8 sm:p-10 lg:p-16 min-h-screen
                      bg-gradient-to-b from-[#0A0A0B] via-[#0D0D0F] to-[#0A0A0B]"
         >
+          <div className="max-w-4xl mx-auto">
           <div className="space-y-6 sm:space-y-8 mb-12 sm:mb-20">
-            <motion.p
+              <motion.div
               initial={{ opacity: 0 }}
-              animate={{ opacity: 2 }}
-              className="text-xs tracking-[0.2em] text-[#9A9AA2] uppercase"
-            >
-              SANSKRITI.AKHOURY
-            </motion.p>
-            
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="mb-4"
+              >
+                <Image
+                  src="/logos/image2.png"
+                  alt="Sanskriti Akhoury - Handwritten Signature"
+                  width={200}
+                  height={60}
+                  className="w-auto h-8 sm:h-10 lg:h-12"
+                  priority
+                />
+              </motion.div>
+              
+              <div className="space-y-8">
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="space-y-4"
+              className="flex items-start gap-4"
             >
-              <motion.h1 
-                className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent 
-                          bg-gradient-to-r from-white via-[#EDEDEF] to-[#DCDCE0]"
-                whileHover={{ 
-                  textShadow: "0 0 10px rgba(255, 255, 255, 0.5)" 
-                }}
+              <div className="flex-1 space-y-4">
+                <div className="space-y-1">
+                  <h2 className="text-2xl text-[#E1E1E3]">
+                    Software Engineering @ UWaterloo.
+                  </h2>
+                  <h2 className="text-md text-[#9A9AA2] max-w-4xl leading-relaxed">
+                    Developing ML & infrastructure tools to enhance enterprise product offerings.
+                  </h2>
+                </div>
+                <p className="text-md text-[#9A9AA2] max-w-3xl leading-relaxed">
+                  Singer. American Idol S6. International Indian Icon Winner S1. <br/>
+                  3x Startup Founder sponsored by TD, IFDS, & Deloitte.
+                </p>
+              
+              {/* Socials */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="flex space-x-6"
               >
-                SANSKRITI AKHOURY
-              </motion.h1>
-              <div className="space-y-2">
-                <h2 className="text-2xl text-[#E1E1E3]">
-                  Software Engineering @ University of Waterloo.
-                </h2>
-                <h2 className="text-md text-[#9A9AA2] max-w-xl leading-relaxed">
-                  Developing AI/ML/infrastructure tools to enhance enterprise product offerings.
-                  Interested in developing robust, well-designed products.
-                </h2>
+                {['linkedin', 'github', 'twitter', 'devpost', 'se-webring'].map((platform) => (
+                  <motion.a
+                    key={platform}
+                    href="#"
+                    className="text-[#9A9AA2] hover:text-white transition-all duration-300"
+                    whileHover={{ y: -2 }}
+                  >
+                    {platform === 'github' && <FaGithub size={20} />}
+                    {platform === 'linkedin' && <FaLinkedin size={20} />}
+                    {platform === 'twitter' && <FaTwitter size={20} />}
+                  </motion.a>
+                ))}
+              </motion.div>
               </div>
-              <p className="text-md text-[#9A9AA2] max-w-lg leading-relaxed">
-                ML Engineer @ HammingAI.<br />
-                Incoming Software Engineer Intern @ Coinbase.<br />
-                3x Startup Founder sponsored by TD, IFDS, & Deloitte.
-              </p>
-              <p className="text-md text-[#9A9AA2] max-w-lg leading-relaxed">
-                Singer. American Idol S6. International Indian Icon Winner S1.
-              </p>
+              
+              <div className="flex-shrink-0 flex items-center justify-center">
+                <Image
+                  src="/logos/goose.png"
+                  alt="Goose reading a book"
+                  width={140}
+                  height={140}
+                  className="mt-2 drop-shadow-[0_0_30px_rgba(255,255,255,0.6)] hover:drop-shadow-[0_0_40px_rgba(255,255,255,0.8)] transition-all duration-300"
+                />
+              </div>
             </motion.div>
-            
-            {/* Socials */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="flex space-x-6"
-            >
-              {['linkedin', 'github', 'twitter', 'devpost', 'mail', 'se-webring'].map((platform) => (
-                <motion.a
-                  key={platform}
-                  href="#"
-                  className="text-[#9A9AA2] hover:text-white transition-all duration-300"
-                  whileHover={{ y: -2 }}
-                >
-                  {platform === 'github' && <FaGithub size={20} />}
-                  {platform === 'linkedin' && <FaLinkedin size={20} />}
-                  {platform === 'twitter' && <FaTwitter size={20} />}
-                </motion.a>
-              ))}
-            </motion.div>
+              </div>
           </div>
 
-          {/* Experience Section */}
-          <div className="space-y-6">
-            <h3 className="text-sm tracking-[0.2em] text-[#9A9AA2] uppercase flex items-center gap-3">
+          <div className="mt-11 text-[#000000]">
+          </div>
+            {/* New Experience Section - Resume Style */}
+          <div className="space-y-6 mt-25">
+            <h3 className="text-sm tracking-[0.2em] text-[#9A9AA2] uppercase flex items-center gap-6">
               <motion.span 
                 initial={{ width: 0 }}
                 animate={{ width: 24 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
                 className="h-[1px] bg-gradient-to-r from-[#9A9AA2] to-[#9A9AA2]/50"
               />
-              LATEST EXPERIENCES
+                WORK EXPERIENCE
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[98%]">
-              {experiences.map((experience, index) => (
+              
+              <div className="space-y-6">
+                {/* Coinbase */}
                 <motion.div 
-                  key={index} 
-                  whileHover={{ scale: 1.01 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  onClick={() => openModal(experience)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1, duration: 0.5 }}
+                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
                 >
-                  <ExperienceCard experience={experience} index={index} />
+                  {/* Glowing gradient border */}
+                  <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
+                      <Image
+                        src="/logos/coinbase.png"
+                        alt="Coinbase logo"
+                        width={32}
+                        height={32}
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                        <h4 className="text-base font-light text-gray-300 group-hover:text-white transition-colors">
+                          Coinbase
+                        </h4>
+                        <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">incoming</span>
+                      </div>
+                      <p className="text-sm font-light text-gray-300 mt-1 leading-tight group-hover:text-gray-200 transition-colors">
+                        Incoming SWE Intern
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2 group-hover:text-gray-400 transition-colors">
+                        software engineering • internship
+                      </p>
+                    </div>
+                  </div>
                 </motion.div>
-              ))}
+
+                {/* Coinbase AM */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15, duration: 0.5 }}
+                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                >
+                  {/* Glowing gradient border */}
+                  <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
+                      <Image
+                        src="/logos/cbam.png"
+                        alt="Coinbase AM logo"
+                        width={32}
+                        height={32}
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                        <h4 className="text-base font-light text-gray-300 group-hover:text-white transition-colors">
+                          Coinbase AM
+                        </h4>
+                        <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">2024</span>
+                      </div>
+                      <p className="text-sm font-light text-gray-300 mt-1 leading-tight group-hover:text-gray-200 transition-colors">
+                        SWE Intern
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2 group-hover:text-gray-400 transition-colors">
+                        software engineering • internship
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* HammingAI */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                >
+                  {/* Glowing gradient border */}
+                  <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
+                      <Image
+                        src="/logos/hamming.png"
+                        alt="HammingAI logo"
+                        width={32}
+                        height={32}
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                        <h4 className="text-base font-light text-gray-300 group-hover:text-white transition-colors">
+                          HammingAI
+                        </h4>
+                        <span className="text-sm font-light text-gray-400 group-hover:text-gray-300 transition-colors">present</span>
+                      </div>
+                      <p className="text-sm font-light text-gray-300 mt-1 leading-tight group-hover:text-gray-200 transition-colors">
+                        Undergraduate ML Researcher
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2 group-hover:text-gray-400 transition-colors">
+                        machine learning • research
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* NGen Canada */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                >
+                  {/* Glowing gradient border */}
+                  <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
+                      <Image
+                        src="/logos/ngen.png"
+                        alt="NGen Canada logo"
+                        width={32}
+                        height={32}
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                        <h4 className="text-base font-light text-gray-300 group-hover:text-white transition-colors">
+                          NGen Canada
+                        </h4>
+                        <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">2024</span>
+                      </div>
+                      <p className="text-sm font-light text-gray-300 mt-1 leading-tight group-hover:text-gray-200 transition-colors">
+                        Data Engineer Intern
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2 group-hover:text-gray-400 transition-colors">
+                        software engineering • internship
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* UW Blueprint */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.5 }}
+                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                >
+                  {/* Glowing gradient border */}
+                  <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
+                      <Image
+                        src="/logos/blueprint.png"
+                        alt="UW Blueprint logo"
+                        width={32}
+                        height={32}
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                        <h4 className="text-base font-light text-gray-300 group-hover:text-white transition-colors">
+                          UW Blueprint
+                        </h4>
+                        <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">2024</span>
+                      </div>
+                      <p className="text-sm font-light text-gray-300 mt-1 leading-tight group-hover:text-gray-200 transition-colors">
+                        Software Developer
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2 group-hover:text-gray-400 transition-colors">
+                        software development • social good
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Front Row Ventures */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                >
+                  {/* Glowing gradient border */}
+                  <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
+                      <Image
+                        src="/logos/frv.png"
+                        alt="Front Row Ventures logo"
+                        width={32}
+                        height={32}
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                        <h4 className="text-base font-light text-gray-300 group-hover:text-white transition-colors">
+                          Front Row Ventures
+                        </h4>
+                        <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">2024</span>
+                      </div>
+                      <p className="text-sm font-light text-gray-300 mt-1 leading-tight group-hover:text-gray-200 transition-colors">
+                        Data Associate
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2 group-hover:text-gray-400 transition-colors">
+                        data analysis • fellowship
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* InLoop */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.5 }}
+                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                >
+                  {/* Glowing gradient border */}
+                  <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
+                      <Image
+                        src="/logos/inloop.png"
+                        alt="InLoop logo"
+                        width={32}
+                        height={32}
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                        <h4 className="text-base font-light text-gray-300 group-hover:text-white transition-colors">
+                          InLoop
+                        </h4>
+                        <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">2023</span>
+                      </div>
+                      <p className="text-sm font-light text-gray-300 mt-1 leading-tight group-hover:text-gray-200 transition-colors">
+                        Software Engineer & Co-founder
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2 group-hover:text-gray-400 transition-colors">
+                        software engineering • startup • co-founder
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </motion.section>
 
-        {/* Right Section */}
+        {/* Simple Divider */}
+        <div className="w-full px-8 sm:px-10 lg:px-16 py-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="h-[1px] bg-[#1A1A1C]" />
+          </div>
+        </div>
+
+        {/* Projects Section */}
         <motion.section 
-          className="w-full lg:w-1/2 p-8 sm:p-10 lg:p-16 min-h-screen lg:h-screen lg:overflow-y-auto 
-                     border-t lg:border-t-0 lg:border-l border-[#1A1A1C]
-                     bg-gradient-to-b from-[#0D0D0F] via-[#0F0F11] to-[#0D0D0F]"
+          className="w-full p-8 sm:p-10 lg:p-16 min-h-screen
+                     bg-gradient-to-b from-[#0A0A0B] via-[#0D0D0F] to-[#0A0A0B]"
         >
-          {/* Minecraft Scene (replaces About Me section) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="mb-16 relative group"
-          >
+          <div className="max-w-4xl mx-auto mt-1">
             <div className="relative">
-              <motion.h3 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="text-sm tracking-[0.2em] text-gray-400 uppercase mb-6 flex items-center gap-3"
-              >
-                <motion.span 
-                  initial={{ width: 0 }}
-                  whileInView={{ width: 24 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  className="h-[1px] bg-gradient-to-r from-gray-400 to-gray-400/50"
-                />
-                INTERACTIVE WORLD (BETA)
-              </motion.h3>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="relative p-6 border border-white/[0.03]
-                        before:absolute before:inset-0 before:p-[1px] before:bg-gradient-to-r 
-                        before:from-transparent before:via-white/5 before:to-transparent 
-                        before:opacity-0 before:-z-10
-                        group-hover:before:opacity-100 before:transition-opacity"
-            >
-              <MinecraftWrapper />
-            </motion.div>
-          </motion.div>
-
-          {/* Projects Section */}
-          <div className="relative">
-            <div className="absolute -inset-x-4 -inset-y-6 bg-white/[0.02] rounded-lg -z-10" />
-            <h3 className="text-sm tracking-[0.2em] text-gray-400 uppercase mb-6 flex items-center gap-3">
+              <div className="absolute -inset-x-4 -inset-y-6 bg-white/[0.02] rounded-lg -z-10" />
+              <h3 className="text-sm tracking-[0.2em] text-[#9A9AA2] uppercase mb-6 flex items-center gap-3">
               <motion.span 
                 initial={{ width: 0 }}
                 whileInView={{ width: 24 }}
@@ -600,7 +626,7 @@ export default function Home() {
               />
               FEATURED WORK
             </h3>
-            <div className="flex gap-4 mb-6">
+            <div className="flex gap-4 mb-4">
               <div className="flex-1">
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
               </div>
@@ -627,16 +653,53 @@ export default function Home() {
                 <ProjectCard project={{ ...project, image: project.image || "" }} />
               </motion.div>
             ))}
+            </div>
           </div>
         </motion.section>
-      </main>
 
-      {/* Modal for Experience Details */}
-      <Modal 
-        isOpen={isModalOpen} 
-        onClose={closeModal} 
-        experience={selectedExperience}
-      />
+        {/* Footer Section */}
+        <footer className="w-full p-8 sm:p-12 lg:p-16 border-t border-[#1A1A1C]
+                     bg-gradient-to-b from-[#0A0A0B] to-[#0A0A0B]"
+        >
+          <div className="max-w-4xl mx-auto">
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="space-y-6">
+                <div className="mb-6 flex items-center justify-center gap-4">
+                  <Image
+                    src="/logos/footertext1.png"
+                    alt="Always glad to meet someone new"
+                    width={450}
+                    height={68}
+                    priority
+                  />
+                  <Image
+                    src="/logos/goose2.png"
+                    alt="Goose with flower"
+                    width={80}
+                    height={80}
+                  />
+                </div>
+                
+                {/* Social Links in Footer */}
+                <div className="flex justify-center space-x-8 pt-4">
+                  {['linkedin', 'github', 'twitter'].map((platform) => (
+                    <a
+                      key={platform}
+                      href="#"
+                      className="text-[#9A9AA2] hover:text-white transition-all duration-300 text-lg"
+                    >
+                      {platform === 'github' && <FaGithub size={24} />}
+                      {platform === 'linkedin' && <FaLinkedin size={24} />}
+                      {platform === 'twitter' && <FaTwitter size={24} />}
+                      {platform === 'mail' && <span className="text-xl">✉️</span>}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </main>
     </div>
   )
 }
