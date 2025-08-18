@@ -32,10 +32,10 @@ export default function RootLayout({
     <html lang="en" className={`${manrope.className} ${spaceGrotesk.variable}`}>
       <head>
         <meta name="theme-color" content="#000000" />
-        <link rel="icon" href="/favicongoose.ico?v=2" type="image/x-icon" />
-        <link rel="shortcut icon" href="/favicongoose.ico?v=2" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="/favicongoose.ico?v=2" />
-        <link rel="icon" type="image/x-icon" href="/favicongoose.ico?v=2" />
+        <link rel="icon" href="/favicongoose.svg?v=1" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/favicongoose.svg?v=1" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicongoose.svg?v=1" />
+        <link rel="icon" type="image/svg+xml" href="/favicongoose.svg?v=1" />
       </head>
       <body>
         {children}
