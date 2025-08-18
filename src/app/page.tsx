@@ -343,10 +343,11 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.5 }}
-                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                  className="relative group hover:bg-gradient-to-br hover:from-pink-400/17 hover:via-red-500/17 hover:to-purple-600/17 p-3 rounded-lg transition-all duration-300 overflow-hidden"
                 >
                   {/* Glowing gradient border */}
                   <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(236,72,153,0.3)] group-hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] pointer-events-none" />
                   
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
@@ -380,10 +381,11 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15, duration: 0.5 }}
-                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                  className="relative group hover:bg-gradient-to-br hover:from-pink-400/4 hover:via-red-500/4 hover:to-purple-600/4 p-3 rounded-lg transition-all duration-300 overflow-hidden"
                 >
                   {/* Glowing gradient border */}
                   <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(236,72,153,0.3)] group-hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] pointer-events-none" />
                   
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
@@ -417,10 +419,11 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                  className="relative group hover:bg-gradient-to-br hover:from-pink-400/4 hover:via-red-500/4 hover:to-purple-600/4 p-3 rounded-lg transition-all duration-300 overflow-hidden"
                 >
                   {/* Glowing gradient border */}
                   <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(236,72,153,0.3)] group-hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] pointer-events-none" />
                   
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
@@ -454,10 +457,11 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
-                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                  className="relative group hover:bg-gradient-to-br hover:from-pink-400/4 hover:via-red-500/4 hover:to-purple-600/4 p-3 rounded-lg transition-all duration-300 overflow-hidden"
                 >
                   {/* Glowing gradient border */}
                   <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(236,72,153,0.3)] group-hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] pointer-events-none" />
                   
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
@@ -491,10 +495,11 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
-                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                  className="relative group hover:bg-gradient-to-br hover:from-pink-400/4 hover:via-red-500/4 hover:to-purple-600/4 p-3 rounded-lg transition-all duration-300 overflow-hidden"
                 >
                   {/* Glowing gradient border */}
                   <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(236,72,153,0.3)] group-hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] pointer-events-none" />
                   
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
@@ -528,10 +533,11 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.5 }}
-                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                  className="relative group hover:bg-gradient-to-br hover:from-pink-400/4 hover:via-red-500/4 hover:to-purple-600/4 p-3 rounded-lg transition-all duration-300 overflow-hidden"
                 >
                   {/* Glowing gradient border */}
                   <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(236,72,153,0.3)] group-hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] pointer-events-none" />
                   
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">
@@ -565,10 +571,11 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6, duration: 0.5 }}
-                  className="relative group hover:bg-white/[0.02] p-3 rounded-lg transition-all duration-300 overflow-hidden"
+                  className="relative group hover:bg-gradient-to-br hover:from-pink-400/4 hover:via-red-500/4 hover:to-purple-600/4 p-3 rounded-lg transition-all duration-300 overflow-hidden"
                 >
                   {/* Glowing gradient border */}
                   <div className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-pink-400/60 via-red-500/60 to-purple-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)] group-hover:shadow-[0_0_25px_rgba(236,72,153,1)] group-hover:w-full w-0" />
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(236,72,153,0.3)] group-hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] pointer-events-none" />
                   
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gray-800/30 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:bg-gray-700/50 transition-colors">

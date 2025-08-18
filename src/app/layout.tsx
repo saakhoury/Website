@@ -31,7 +31,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${manrope.className} ${spaceGrotesk.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="icon" href="/favicongoose.ico?v=2" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicongoose.ico?v=2" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/favicongoose.ico?v=2" />
+        <link rel="icon" type="image/x-icon" href="/favicongoose.ico?v=2" />
       </head>
       <body>
         {children}
