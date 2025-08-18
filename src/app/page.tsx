@@ -295,18 +295,33 @@ export default function Home() {
                 transition={{ delay: 0.3 }}
                 className="flex space-x-6"
               >
-                {['linkedin', 'github', 'twitter', 'devpost', 'se-webring'].map((platform) => (
-                  <motion.a
-                    key={platform}
-                    href="#"
-                    className="text-[#9A9AA2] hover:text-white transition-all duration-300"
-                    whileHover={{ y: -2 }}
-                  >
-                    {platform === 'github' && <FaGithub size={20} />}
-                    {platform === 'linkedin' && <FaLinkedin size={20} />}
-                    {platform === 'twitter' && <FaTwitter size={20} />}
-                  </motion.a>
-                ))}
+                <motion.a
+                  href="https://www.linkedin.com/in/sanskriti-akhoury/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#9A9AA2] hover:text-white transition-all duration-300"
+                  whileHover={{ y: -2 }}
+                >
+                  <FaLinkedin size={20} />
+                </motion.a>
+                <motion.a
+                  href="https://github.com/saakhoury"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#9A9AA2] hover:text-white transition-all duration-300"
+                  whileHover={{ y: -2 }}
+                >
+                  <FaGithub size={20} />
+                </motion.a>
+                <motion.a
+                  href="https://x.com/akhourysa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#9A9AA2] hover:text-white transition-all duration-300"
+                  whileHover={{ y: -2 }}
+                >
+                  <FaTwitter size={20} />
+                </motion.a>
               </motion.div>
               </div>
               
