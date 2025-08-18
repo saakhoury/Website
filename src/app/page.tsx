@@ -691,18 +691,30 @@ export default function Home() {
                 
                 {/* Social Links in Footer */}
                 <div className="flex justify-center space-x-8 pt-4">
-                  {['linkedin', 'github', 'twitter'].map((platform) => (
-                    <a
-                      key={platform}
-                      href="#"
-                      className="text-[#9A9AA2] hover:text-white transition-all duration-300 text-lg"
-                    >
-                      {platform === 'github' && <FaGithub size={24} />}
-                      {platform === 'linkedin' && <FaLinkedin size={24} />}
-                      {platform === 'twitter' && <FaTwitter size={24} />}
-                      {platform === 'mail' && <span className="text-xl">✉️</span>}
-                    </a>
-                  ))}
+                  <a
+                    href="https://www.linkedin.com/in/sanskriti-akhoury/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#9A9AA2] hover:text-white transition-all duration-300 text-lg hover:scale-110 transform"
+                  >
+                    <FaLinkedin size={24} />
+                  </a>
+                  <a
+                    href="https://github.com/saakhoury"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#9A9AA2] hover:text-white transition-all duration-300 text-lg hover:scale-110 transform"
+                  >
+                    <FaGithub size={24} />
+                  </a>
+                  <a
+                    href="https://x.com/akhourysa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#9A9AA2] hover:text-white transition-all duration-300 text-lg hover:scale-110 transform"
+                  >
+                    <FaTwitter size={24} />
+                  </a>
                 </div>
               </div>
             </div>
